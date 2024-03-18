@@ -37,6 +37,19 @@ public class DataLoader {
         return students;
     }
 
+    public static List<Admin> loadAdminsData(List<Address> adList) {
+        List<Admin> admins = new ArrayList<>();
+        admins.add(new Admin("ADM01", "Klop", "Jurgen",
+                "3197263847", "John@miu.edu", adList.get(0)));
+
+        admins.add(new Admin("ADM02", "Ronaldo", "Cristiano",
+                "6412339423", "pius@miu.edu", adList.get(1)));
+        admins.add(new Admin("ADM03",
+                "Eric", "Pep", "3192339423", "ade@miu.edu", adList.get(1)));
+        // Add more students if needed
+        return admins;
+    }
+
     public static List<Course> loadCoursesData() {
         List<Course> courses = new ArrayList<>();
         courses.add(new Course("CS390", "FPP", "Functional Programming Practice", 3));

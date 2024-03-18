@@ -16,6 +16,7 @@ public class StudentManagementSystem {
     private List<Course> courses;
     private List<Section> sections;
     private List<Enrollment> enrollments;
+    private List<Admin> admins;
     private Scanner sc;
 
     // ANSI escape code for bold text
@@ -28,6 +29,7 @@ public class StudentManagementSystem {
         instructors = DataLoader.loadInstructorData(adList);
         students = DataLoader.loadStudentsData(adList);
         courses = DataLoader.loadCoursesData();
+        admins = DataLoader.loadAdminsData(adList);
         sections = DataLoader.loadSectionsData(instructors, courses);
         enrollments = DataLoader.loadEnrollmentData(students, sections);
 
@@ -49,6 +51,7 @@ public class StudentManagementSystem {
 
         switch (roleId) {
             case 1:
+                loadAdmin();
                 break;
             case 2:
                 loadStudent();
@@ -65,6 +68,76 @@ public class StudentManagementSystem {
         sc.close();
     }
 
+    public void loadAdmin(){
+        System.out.println("Administrator List:");
+
+        var headers = List.of("Admin Id", "Name");
+        var data = admins.stream()
+                .map(t -> List.of(
+                        t.getAdminId(),
+                        t.getFullName()))
+                .toList();
+
+        TableViewUtils.printTable(headers, data);
+
+        System.out.println("Please login to the system by entering the specified Admin Id:");
+
+        var adminId = sc.next();
+        adminId = adminId.toUpperCase();
+        var adminOptional = findAdminById(adminId);
+        if (adminOptional.isEmpty()) {
+            System.out.println("Administrator Id Not Found.");
+            return;
+        }
+
+        var adminstrator = adminOptional.get();
+
+        adminstrator.setStudents(students);
+
+        System.out.printf("\n %s Welcome Admin %s %s \n", ANSI_BOLD, adminstrator.getFullName(), ANSI_RESET);
+
+        adminActions(adminstrator);
+
+    }
+
+    private void adminActions(Admin admin){
+        System.out.println();
+        System.out.println("=== Administrator Action ===");
+        System.out.println("1. View All Students");
+        System.out.println("2. Add new Student");
+        System.out.println("3. Update Student info");
+        System.out.println("4. Logout");
+        System.out.println("5. Exit");
+
+        var adminAction = sc.nextInt();
+
+        switch (adminAction) {
+            case 1:
+//                instructor.viewCoursesTaught();
+                admin.viewAllStudents();
+                adminActions(admin);
+                break;
+            case 2:
+//                viewEnrolledStudentBySection(instructor);
+//                registerCourse(student);
+
+                adminActions(admin);
+                break;
+            case 3:
+                adminActions(admin);
+                break;
+            case 4:
+                loadLogin();
+                break;
+            case 5:
+                System.exit(0);
+                break;
+            default:
+                System.out.println("Default");
+                break;
+        }
+
+    }
 
     private void loadInstructor() {
         System.out.println("Instructor List:");
@@ -341,7 +414,12 @@ public class StudentManagementSystem {
         return instructors.stream().filter(s -> s.getInstructorId().equals(id)).findFirst();
     }
 
+    private Optional<Admin> findAdminById(String id) {
+        return admins.stream().filter(s -> s.getAdminId().equals(id)).findFirst();
+    }
+
     private Optional<Student> findStudentById(String id) {
         return students.stream().filter(s -> s.getStudentId().equals(id)).findFirst();
     }
+
 }
