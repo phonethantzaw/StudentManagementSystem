@@ -3,6 +3,8 @@ package com.cs401.mpp.business;
 import com.cs401.mpp.model.*;
 import com.cs401.mpp.utils.TableViewUtils;
 
+import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -68,7 +70,7 @@ public class StudentManagementSystem {
         sc.close();
     }
 
-    public void loadAdmin(){
+    public void loadAdmin() {
         System.out.println("Administrator List:");
 
         var headers = List.of("Admin Id", "Name");
@@ -100,7 +102,7 @@ public class StudentManagementSystem {
 
     }
 
-    private void adminActions(Admin admin){
+    private void adminActions(Admin admin) {
         System.out.println();
         System.out.println("=== Administrator Action ===");
         System.out.println("1. View All Students");
@@ -113,17 +115,15 @@ public class StudentManagementSystem {
 
         switch (adminAction) {
             case 1:
-//                instructor.viewCoursesTaught();
                 admin.viewAllStudents();
                 adminActions(admin);
                 break;
             case 2:
-//                viewEnrolledStudentBySection(instructor);
-//                registerCourse(student);
-
+                registerStudent(admin);
                 adminActions(admin);
                 break;
             case 3:
+                updateStudentInfo(admin);
                 adminActions(admin);
                 break;
             case 4:
@@ -136,6 +136,81 @@ public class StudentManagementSystem {
                 System.out.println("Default");
                 break;
         }
+
+    }
+
+    private void registerStudent(Admin admin) {
+
+        System.out.println("Student Information");
+
+        sc.nextLine(); // Consume any lingering newline
+        System.out.println("Student First Name: ");
+        String firstName = sc.nextLine();
+
+        System.out.println("Student Last Name: ");
+        String lastName = sc.nextLine();
+
+        System.out.println("Phone No: ");
+        String phoneNo = sc.nextLine();
+
+        System.out.println("Email: ");
+        String email = sc.nextLine();
+
+        System.out.println("\nStudent Details:");
+        System.out.println("  First Name: " + firstName);
+        System.out.println("  Last Name: " + lastName);
+        System.out.println("  Phone No: " + phoneNo);
+        System.out.println("  Email: " + email);
+
+
+        admin.addNewStudent(new Student(incrementStdId(), LocalDate.of(1992, 6, 23), LocalDate.now(), firstName, lastName, phoneNo, email, adList.get(1)));
+
+        System.out.println();
+        System.out.printf("*** %s %s is Register as New Student *** ", firstName, lastName);
+
+    }
+
+    public void updateStudentInfo(Admin admin) {
+
+        System.out.println("Please Choose  the specified Student Id which want to update");
+        admin.viewAllStudents();
+
+        var stdId = sc.next();
+        stdId = stdId.toUpperCase();
+        var studentOptional = findStudentById(stdId);
+        if (studentOptional.isEmpty()) {
+            System.out.println("** Student Id Not Found. **");
+            return;
+        }
+
+        var student = studentOptional.get();
+
+
+    }
+
+    public String incrementStdId() {
+
+        // Get the last student based on enrollment date using Stream API
+        Optional<Student> lastStudent = students.stream()
+                .max(Comparator.comparing(Student::getEnrollmentDate));
+
+        if (lastStudent.isEmpty()) {
+            System.out.println("There is No Student Data");
+        }
+
+        String inputStd = lastStudent.get().getStudentId();
+
+        // Extract the numeric part from the input string
+        String numericPart = inputStd.replaceAll("[^0-9]", "");
+
+        // Convert the numeric part to an integer and increment by one
+        int number = Integer.parseInt(numericPart) + 1;
+
+        // Reconstruct the string with the incremented value
+        String result = inputStd.replaceAll("[0-9]", "") + String.format("%02d", number);
+
+        System.out.println();
+        return result;
 
     }
 
@@ -356,7 +431,7 @@ public class StudentManagementSystem {
         // show available cause sections by course
         System.out.printf("Enrolled Student from %s Class\n", inputCourse);
 
-       var studList = enrollments.stream()
+        var studList = enrollments.stream()
                 .filter(e -> e.getSection().getInstructor().getInstructorId().equals(instructorId) && e.getSection().getCourse().getName().equals(inputCourse))
                 .map(Enrollment::getStudent)
                 .toList();
@@ -370,7 +445,6 @@ public class StudentManagementSystem {
         TableViewUtils.printTable(headers, data);
 
     }
-
 
 
     private List<String> getAvailableMonths() {

@@ -29,9 +29,9 @@ public class DataLoader {
         List<Student> students = new ArrayList<>();
         students.add(new Student("STD01", LocalDate.of(1998, 8, 11), LocalDate.of(2023, 2, 20),
                 "John", "Mike", "3197263847", "John@miu.edu", adList.get(0)));
-        students.add(new Student("STD02", LocalDate.of(1992, 4, 20), LocalDate.of(2022, 2, 10),
+        students.add(new Student("STD02", LocalDate.of(1992, 4, 20), LocalDate.of(2023, 3, 10),
                 "Busing", "Pius", "6412339423", "pius@miu.edu", adList.get(1)));
-        students.add(new Student("STD03", LocalDate.of(1993, 5, 20), LocalDate.of(2022, 2, 10),
+        students.add(new Student("STD03", LocalDate.of(1993, 5, 20), LocalDate.of(2023, 8, 10),
                 "Ade", "Kumar", "3192339423", "ade@miu.edu", adList.get(1)));
         // Add more students if needed
         return students;
