@@ -183,10 +183,70 @@ public class StudentManagementSystem {
             return;
         }
 
-        var student = studentOptional.get();
+        Student student = studentOptional.get();
 
+        checkDetails(student);
+
+        System.out.println("\nUpdated Student Details:");
+        System.out.println("  First Name: " + student.getFirstName());
+        System.out.println("  Last Name: " + student.getLastName());
+        System.out.println("  Phone No: " + student.getPhoneNo());
+        System.out.println("  Email: " + student.getEmail());
+    }
+
+
+    public void checkDetails(Student student) {
+        System.out.println();
+        System.out.println("=== Update Student Information ===");
+        System.out.println("1. Update Student First Name");
+        System.out.println("2. Update Student Last Name");
+        System.out.println("3. Update Phone No");
+        System.out.println("4. Update Email");
+        System.out.println("5. Confirm");
+        System.out.println("6. Exit");
+
+
+        String updateFirstName = "";
+        String updateLastName = "";
+        String updatePhoneNo = "";
+        String updateEmail = "";
+
+        int x = sc.nextInt();
+        sc.nextLine();
+
+        switch (x) {
+            case 1:
+                updateFirstName = sc.nextLine();
+                student.setFirstName(updateFirstName);
+                checkDetails(student);
+                break;
+            case 2:
+                updateLastName = sc.nextLine();
+                student.setLastName(updateLastName);
+                checkDetails(student);
+                break;
+            case 3:
+                updatePhoneNo = sc.nextLine();
+                student.setPhoneNo(updatePhoneNo);
+                checkDetails(student);
+                break;
+            case 4:
+                updateEmail = sc.nextLine();
+                student.setEmail(updateEmail);
+                checkDetails(student);
+                break;
+            case 5:
+                break;
+            case 6:
+                System.exit(0);
+                break;
+            default:
+                System.out.println("Default");
+                break;
+        }
 
     }
+
 
     public String incrementStdId() {
 
