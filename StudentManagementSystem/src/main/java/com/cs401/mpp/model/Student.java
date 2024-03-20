@@ -11,7 +11,6 @@ public class Student extends Person {
     private String studentId;
     private LocalDate dateOfBirth;
     private LocalDate enrollmentDate;
-
     private List<Enrollment> enrollments;
 
 
@@ -65,5 +64,11 @@ public class Student extends Person {
         Enrollment enrollment = new Enrollment(this, section, "");
         this.enrollments.add(enrollment);
         return enrollment;
+    }
+
+    public boolean isAlreadyRegisteredCourse(String courseName) {
+        return enrollments.stream()
+                .anyMatch(i -> i.getSection().getCourse().getName().equals(courseName));
+
     }
 }

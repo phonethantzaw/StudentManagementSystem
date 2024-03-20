@@ -172,7 +172,7 @@ public class StudentManagementSystem {
 
     public void updateStudentInfo(Admin admin) {
 
-        System.out.println("Please Choose  the specified Student Id which want to update");
+        System.out.println("Please Choose the specified Student Id which want to update :");
         admin.viewAllStudents();
 
         var stdId = sc.next();
@@ -472,6 +472,13 @@ public class StudentManagementSystem {
         }
 
         var section = sectionOptional.get();
+
+        if (student.isAlreadyRegisteredCourse(section.getCourse().getName())) {
+            System.out.println("**You Have Already Registered This Course Please Select Others **");
+            return;
+        }
+
+
         var enrollment = student.registerCourse(section);
         enrollments.add(enrollment);
         System.out.printf("Successfully Enroll in  %s \n", section.getCourse().getName());
