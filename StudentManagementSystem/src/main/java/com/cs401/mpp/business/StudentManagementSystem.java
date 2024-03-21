@@ -47,6 +47,7 @@ public class StudentManagementSystem {
         System.out.println("1. Admin");
         System.out.println("2. Student");
         System.out.println("3. Instructor");
+        System.out.println("4. Exit");
 
         System.out.println("Please choose the login role:");
         var roleId = sc.nextInt();
@@ -60,6 +61,9 @@ public class StudentManagementSystem {
                 break;
             case 3:
                 loadInstructor();
+                break;
+            case 4:
+                System.exit(0);
                 break;
             default:
                 System.out.println("Default");
