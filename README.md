@@ -8,3 +8,6 @@ The system needs to provide efficient software for students to register for cour
 - Student Enrollment: Allow students to browse available courses, register for classes, and manage their academic grades.
 - Course Management: Enable administrators to create, update, and remove courses, assign instructors, define schedules, and set enrollment limits.
 - Grade Tracking: Provide a platform for faculty members to record and update grades, calculate GPA for students.
+
+### Project Presentation
+https://docs.google.com/presentation/d/1GcAWyplFqlHzvLua-HBivJ8gx7LSiJ4VMi2pqJ3V5NU/edit?usp=sharing
